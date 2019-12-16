@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 import morgan from 'morgan'
 import todoRouter from './resources/todo/todo.router.js'
+import userRouter from './resources/user/user.router.js'
 import HttpError from './middleware/ErrorHandler.js'
 dotenv.config()
 const {PORT} = process.env
@@ -12,6 +13,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(morgan('dev'))
 
 app.use('/api/todo', todoRouter)
+app.use('/', userRouter)
 
 app.use((req, res, next) => {
 	const error = new HttpError('This route does not exist', 404)
