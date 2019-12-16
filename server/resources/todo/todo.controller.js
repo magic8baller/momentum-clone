@@ -18,12 +18,23 @@ export const createOne = (req, res, next) => {
 		res.json({data:todos})
 }
 export const getOne = (req, res, next) => {
-	const todoId = req.body.id
-	const todo = testTodos.find(todo => todo.id == req.params.id)
+	const todoId = req.params.id
+	const todo = testTodos.find(todo => todo.id == todoId)
 	console.log('get 1 request:',todo)
 	if (!todo) {
 		return res.json({message: 'todo not found', success: false})
 	}
 
 	res.json({message: 'got 1 todo!', data: todo, success: true})
+}
+
+export const updateOne = (req, res, next) => {
+	const todos = testTodos
+	const todoId = req.params.id
+	const updatedTodo = {...testTodos.find(todo => todo.id == todoId)}
+	const todoIndex = todos.findIndex(todo => todo.id == todoId)
+
+	todos[todoIndex] = {...req.body, updatedTodo}
+
+	res.status(200).json({message: 'succes', newTodo: updatedTodo})
 }

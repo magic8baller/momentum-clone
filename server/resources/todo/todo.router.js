@@ -7,5 +7,6 @@ todoRouter.route('/')
 
 todoRouter.route('/:id')
 .get(todoControllers.getOne)
+.put(todoControllers.updateOne)
 
 export default todoRouter
