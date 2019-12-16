@@ -8,5 +8,6 @@ todoRouter.route('/')
 todoRouter.route('/:id')
 .get(todoControllers.getOne)
 .put(todoControllers.updateOne)
+.delete(todoControllers.removeOne)
 
 export default todoRouter
