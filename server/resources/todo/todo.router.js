@@ -1,13 +1,13 @@
 import express from 'express'
-const todoRouter = express.Router()
+import expressValidator from 'express-validator'
 import * as todoControllers from './todo.controller.js'
-todoRouter.route('/')
-.get(todoControllers.getMany)
-.post(todoControllers.createOne)
+const todoRouter = express.Router()
+const {check} = expressValidator
+todoRouter.get('/', todoControllers.getMany)
+todoRouter.post('/', [check('text').not().isEmpty()],todoControllers.createOne)
 
-todoRouter.route('/:id')
-.get(todoControllers.getOne)
-.put(todoControllers.updateOne)
-.delete(todoControllers.removeOne)
+todoRouter.get('/:id', todoControllers.getOne)
+todoRouter.put('/:id', todoControllers.updateOne, [check('text').not().isEmpty()])
+todoRouter.delete('/:id', todoControllers.removeOne)
 
 export default todoRouter

@@ -1,5 +1,7 @@
 import {testUsers, testTodos} from '../../testData.js'
 import HttpError from '../../middleware/ErrorHandler.js'
+import expressValidator from 'express-validator'
+const {validationResult} = expressValidator
 export const getMany = async (req, res, next) => {
 	const todos = testTodos
 
@@ -14,6 +16,10 @@ export const getMany = async (req, res, next) => {
 }
 
 export const createOne = (req, res, next) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+		throw new HttpError('Invalid input, please enter text', 422)
+	}
 	const todos = testTodos
 
 	const newTodo = {
@@ -35,6 +41,10 @@ export const getOne = (req, res, next) => {
 }
 
 export const updateOne = (req, res, next) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+		throw new HttpError('Invalid input, please enter text', 422)
+	}
 	const todos = testTodos
 	const todoId = req.params.id
 	const updatedTodo = {...testTodos.find(todo => todo.id == todoId)}
