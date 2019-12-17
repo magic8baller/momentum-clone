@@ -8,7 +8,8 @@ const {validationResult} = expressValidator
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 export const getUsers = (req, res, next) => {
-	res.json({users: testUsers})
+	const users = User.find({})
+	return res.send(users)
 }
 export const registerUser = async (req, res, next) => {
 
@@ -108,4 +109,3 @@ export const loginUser = async (req, res, next) => {
 export const logoutUser = (req, res, next) => {
 
 }
-

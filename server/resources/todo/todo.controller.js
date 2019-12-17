@@ -1,9 +1,9 @@
-import {testUsers, testTodos} from '../../testData.js'
+import {Todo} from './todo.model.js'
 import HttpError from '../../middleware/ErrorHandler.js'
 import expressValidator from 'express-validator'
 const {validationResult} = expressValidator
 export const getMany = async (req, res, next) => {
-	const todos = testTodos
+	const todos = Todo.find({})
 
 	if (!todos || !todos.length) {
 		return next(
@@ -15,17 +15,17 @@ export const getMany = async (req, res, next) => {
 	res.json({message: 'got all todos!', data: todos, success: true})
 }
 
-export const createOne = (req, res, next) => {
+export const createOne = async (req, res, next) => {
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) {
 		throw new HttpError('Invalid input, please enter text', 422)
 	}
-	const todos = testTodos
+	// const todos = testTodos
 
-	const newTodo = {
-		...req.body, id: Date.now(), status: 'active', userId: 3,"createdAt": Date.now()}
-		todos.push(newTodo)
-		res.json({data:todos})
+	const newTodo = await Todo.create({
+		...req.body})
+		newTodo.save()
+		res.json({data:newTodo})
 }
 export const getOne = (req, res, next) => {
 	const todoId = req.params.id
